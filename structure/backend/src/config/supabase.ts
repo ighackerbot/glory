@@ -14,7 +14,7 @@ export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Connection test
-supabaseAdmin.from('charities').select('count', { count: 'exact', head: true })
+Promise.resolve(supabaseAdmin.from('charities').select('count', { count: 'exact', head: true }))
   .then(({ count, error }) => {
     if (error) {
       console.log('   ⚠️  Supabase connected but tables may not exist yet:', error.message);
@@ -22,6 +22,6 @@ supabaseAdmin.from('charities').select('count', { count: 'exact', head: true })
       console.log(`   ✅ Supabase connected! (${count} charities found)`);
     }
   })
-  .catch((err) => console.error('   ❌ Supabase connection failed:', err.message));
+  .catch((err: Error) => console.error('   ❌ Supabase connection failed:', err.message));
 
 export default supabaseAdmin;
